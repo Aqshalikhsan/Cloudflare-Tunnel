@@ -1,12 +1,5 @@
-# Materi: Publikasi Web Tanpa VPS dengan Cloudflare Tunnel dan Domain Sendiri
+# Publikasi Web Tanpa VPS dengan Cloudflare Tunnel dan Domain Sendiri
 
-**Sasaran:** pemula yang sudah mempunyai aplikasi web di laptop/PC, mini PC, Raspberry Pi, atau NAS.  
-**Durasi:** sekitar 60–90 menit, termasuk praktik.  
-**Diperbarui:** 27 Oktober 2026. Menu layanan dan harga domain dapat berubah.
-
-**Panduan langkah demi langkah untuk Windows:** [PRAKTIK_WINDOWS.md](./PRAKTIK_WINDOWS.md). Panduan ini mengikuti contoh nyata dari web lokal sampai Quick Tunnel tanpa domain, lalu menjelaskan kelanjutannya jika ingin membeli domain.
-
-**Presentasi:** [Web_Tanpa_VPS_Cloudflare_Tunnel_Revisi_3.pptx](./Web_Tanpa_VPS_Cloudflare_Tunnel_Revisi_3.pptx) berisi 23 slide. Untuk membuat ulang setelah mengubah isinya, pasang `requirements-ppt.txt` lalu jalankan `python buat_ppt.py`.
 
 ## Hasil belajar
 
@@ -50,36 +43,26 @@ Cloudflare Tunnel membuat koneksi **keluar** dari perangkat Anda. Untuk web HTTP
 
 **Tidak perlu VPS**, tetapi ini bukan hosting tanpa komputer: listrik dan koneksi internet perangkat asal tetap menjadi tanggung jawab Anda. Jika perangkat dimatikan, pengunjung tidak bisa membuka aplikasinya.
 
-## 3. Alur paling cepat sebelum membeli domain
 
-**Docker tidak perlu dibuat atau dipasang untuk praktik ini.** Web contoh dapat berjalan langsung dengan Python di Windows, lalu `cloudflared.exe` meneruskan web itu. Jika aplikasi Anda sudah berjalan di Docker, cukup gunakan alamat dan port yang dapat dijangkau `cloudflared`; bagian Docker Compose di bawah adalah pilihan lain.
+1. create tunnel
+ - download cloudflare-windows
 
-**Jika web Anda hanya file HTML:** simpan sebagai `index.html` di sebuah folder. File tersebut tidak diunggah ke `localhost`; **Python `http.server` menjadi server web** yang membaca folder itu. Pada contoh Windows, server Python berjalan di port 8088 dan membaca `index.html` dari `contoh-cloudflare/site`. Membuka file dengan klik dua kali (`file:///...`) berbeda dari menyajikannya lewat `http://localhost:8088`. Lihat [langkah lengkap Windows](./PRAKTIK_WINDOWS.md#a-siapkan-web-lokal).
+2. klo sudah punya cloudflare yg aktif
 
-**Untuk komputer Windows lain tanpa Python:** salin seluruh folder [contoh-cloudflare](./contoh-cloudflare/), lalu klik dua kali [setup.cmd](./contoh-cloudflare/setup.cmd). Skrip memakai PowerShell bawaan untuk menyajikan `site/index.html` dan membuka browser. Port awalnya 8088; bila terpakai, skrip memilih port kosong berikutnya dan mencetak URL serta perintah tunnel yang benar. Folder `site` boleh berisi HTML, CSS, JavaScript, dan gambar. Jendela skrip harus tetap terbuka. Jalankan [stop.cmd](./contoh-cloudflare/stop.cmd) untuk menghentikan semua server portabel dari folder paket itu dan server Python yang menyajikan folder contoh; [stop.sh](./contoh-cloudflare/stop.sh) tersedia untuk Git Bash/WSL. Skrip stop tidak mematikan aplikasi localhost lain. Untuk akses publik, pasang `cloudflared` di PC itu dan gunakan port yang tercetak. Lihat [langkah portabel](./PRAKTIK_WINDOWS.md#cara-portabel-tanpa-python-atau-docker).
+cloudflared.exe service uninstall
 
-**Paket siap salin:** [Web_HTML_Portabel_Windows.zip](./Web_HTML_Portabel_Windows.zip). Ekstrak ZIP di lokasi mana saja pada komputer Windows, lalu klik dua kali `setup.cmd` di folder hasil ekstrak. Paket ini hanya menjalankan web lokal; akses publik memerlukan `cloudflared` di komputer tersebut.
+2. install ulang
+3. 
+contoh:
+cloudflared.exe service install eyJhIjoiYzU4YmU3Mzg5ODdlZThhOGMwNDlmOGU3MjJjOTYxZDUiLCJ0IjoiOTBiZTJlMWItMzY2MC00OGVjLWExNDktM2JiNzRkOGNiNjFhIiwicyI6Ik5UZzFOR0psWldZdE1qTXdPUzAwWVRBMkxXRXlZakF0T0RVM1l6QmtORFl4TmpJeCJ9
 
-**Satu lembar perintah CMD:** [PERINTAH_CMD.txt](./contoh-cloudflare/PERINTAH_CMD.txt) berisi urutan menjalankan server, memeriksa port, membuat Quick Tunnel, dan menghentikan proyek. File ini juga disertakan dalam ZIP portabel.
+continue
 
-Jika URL tunnel menampilkan **HTTP 400 Bad Request - Invalid Hostname** dengan paket lama, ganti `serve-local.ps1` dari ZIP terbaru, hentikan server lama, lalu jalankan ulang `setup.cmd`. Server terbaru menerima Host publik dari tunnel sambil tetap mendengarkan hanya pada `127.0.0.1`. Gunakan perintah `cloudflared.exe tunnel --url http://127.0.0.1:PORT` yang dicetak skrip.
+3. jalankan localhost
 
-1. Jalankan aplikasi web di perangkat sendiri. Dalam contoh praktik Windows ini, web berjalan di `http://localhost:8088`.
-2. Dari perangkat yang sama, pastikan URL lokal itu benar-benar menampilkan halaman.
-3. Untuk percobaan singkat, pasang `cloudflared`. Buka Command Prompt kedua dan jalankan perintah lengkap berikut:
-
-   ```cmd
-   cloudflared.exe tunnel --url http://localhost:8088
-   ```
-
-   Ganti `8088` dengan port yang dicetak `setup.cmd` jika berbeda. Pada named tunnel, sesuaikan juga **Service URL** di dashboard Cloudflare ke port yang sama. Perintah ini membuat Quick Tunnel dan menampilkan URL sementara `trycloudflare.com`. URL tersebut untuk pengujian dan dapat berubah. Ikuti [panduan Quick Tunnel](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
-4. Bila aplikasi sudah bekerja, lanjutkan ke domain dan **named tunnel** agar hostname tetap.
-
-Jangan mulai dari DNS jika aplikasi lokalnya sendiri belum bisa dibuka.
-
+4. cloudflared.exe tunnel --url http://127.0.0.1:8088
+   
 ## 4. Beli domain
-
-Di luar biaya perangkat, listrik, dan internet, pembelian domain adalah pengeluaran utama dalam jalur materi ini. Cloudflare Tunnel untuk aplikasi publik dapat dipakai tanpa paket Cloudflare Access berbayar. [Cloudflare: published applications](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/routing-to-tunnel/).
 
 1. Pilih nama dan ekstensi, misalnya `contoh-domain.id` atau `contoh-domain.com`.
 2. Cari ketersediaan di registrar yang mendukung ekstensi tersebut. Bisa melalui registrar lokal, Cloudflare Registrar bila ekstensinya tersedia, atau penyedia domain lain. Tidak perlu memindahkan aplikasi ke registrar tempat domain dibeli.
