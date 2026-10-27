@@ -1,0 +1,58 @@
+LEMBAR PERINTAH CMD - WEB HTML PORTABEL + CLOUDFLARE TUNNEL
+============================================================
+
+Jalankan di Windows Command Prompt (CMD). Buka dua jendela CMD.
+Salin SELURUH folder proyek: setup.cmd, serve-local.ps1, stop.cmd, dan site\index.html.
+Docker dan Python tidak diperlukan. Untuk akses publik, cloudflared.exe harus tersedia.
+
+JENDELA CMD 1 - JALANKAN WEB LOKAL
+---------------------------------
+cd /d "LOKASI_FOLDER_WEB_HTML_PORTABEL_WINDOWS"
+setup.cmd
+
+Contoh lokasi pada komputer saat materi dibuat:
+cd /d "D:\scrap-web\materi-tunelling\Web_HTML_Portabel_Windows"
+setup.cmd
+
+Biarkan jendela ini terbuka. setup.cmd membuka browser dan mencetak URL lokal.
+Port awal 8088. Jika 8088 sudah dipakai, skrip memilih port lain, misalnya 8089.
+CATAT PORT YANG BENAR dari baris "Server HTML berjalan" di jendela ini.
+
+JENDELA CMD 2 - UJI LOKAL DAN BUAT QUICK TUNNEL
+-----------------------------------------------
+where cloudflared.exe
+curl.exe -I http://127.0.0.1:8088/
+cloudflared.exe tunnel --url http://127.0.0.1:8088
+
+Jika jendela CMD 1 mencetak port 8089, ganti DUA perintah terakhir menjadi:
+curl.exe -I http://127.0.0.1:8089/
+cloudflared.exe tunnel --url http://127.0.0.1:8089
+
+Gunakan perintah tunnel yang dicetak setup.cmd agar portnya pasti sesuai.
+Salin URL https://...trycloudflare.com dari jendela CMD 2, lalu buka di browser.
+Biarkan kedua jendela CMD terbuka selama web ingin diakses.
+
+MENGHENTIKAN
+------------
+Di jendela CMD 2, tekan Ctrl+C untuk menghentikan Quick Tunnel.
+Di jendela CMD 1, tekan Ctrl+C untuk menghentikan server web.
+Atau, dari folder proyek jalankan:
+stop.cmd
+
+stop.cmd menghentikan server portabel dari folder ini dan server Python contoh
+yang menyajikan folder materi. Aplikasi localhost lain tidak dihentikan.
+Jika memakai Git Bash/WSL, tersedia stop.sh; pada Windows CMD gunakan stop.cmd.
+
+PILIH PORT SENDIRI (OPSIONAL)
+----------------------------
+set PORT=8090
+setup.cmd
+
+Lalu gunakan port 8090 pada curl.exe dan cloudflared.exe di jendela CMD 2.
+
+CATATAN DOMAIN / NAMED TUNNEL
+-----------------------------
+Quick Tunnel tidak memerlukan domain atau perintah service install.
+Jika memakai named tunnel yang sudah dibuat di dashboard Cloudflare, atur
+Service URL ke http://127.0.0.1:PORT sesuai port yang dicetak setup.cmd.
+Jangan tempel token tunnel ke file TXT ini atau ke slide.

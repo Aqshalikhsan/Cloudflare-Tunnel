@@ -1,0 +1,14 @@
+create tunnel
+download cloudflare-windows
+
+1. klo sudah punya cloudflare yg aktif
+- cloudflared.exe service uninstall
+
+2. install ulang
+- cloudflared.exe service install eyJhIjoiYzU4YmU3Mzg5ODdlZThhOGMwNDlmOGU3MjJjOTYxZDUiLCJ0IjoiOTBiZTJlMWItMzY2MC00OGVjLWExNDktM2JiNzRkOGNiNjFhIiwicyI6Ik5UZzFOR0psWldZdE1qTXdPUzAwWVRBMkxXRXlZakF0T0RVM1l6QmtORFl4TmpJeCJ9
+
+-continue
+
+3. jalankan localhost
+
+4. cloudflared.exe tunnel --url http://127.0.0.1:8088
