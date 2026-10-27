@@ -48,20 +48,21 @@ Cloudflare Tunnel membuat koneksi **keluar** dari perangkat Anda. Untuk web HTTP
  - download cloudflare-windows
 
 2. klo sudah punya cloudflare yg aktif
-
+```
 cloudflared.exe service uninstall
-
+```
 2. install ulang
-3. 
-contoh:
-cloudflared.exe service install eyJhIjoiYzU4YmU3Mzg5ODdlZThhOGMwNDlmOGU3MjJjOTYxZDUiLCJ0IjoiOTBiZTJlMWItMzY2MC00OGVjLWExNDktM2JiNzRkOGNiNjFhIiwicyI6Ik5UZzFOR0psWldZdE1qTXdPUzAwWVRBMkxXRXlZakF0T0RVM1l6QmtORFl4TmpJeCJ9
 
+contoh:
+```
+cloudflared.exe service install eyJhIjoiYzU4YmU3Mzg5ODdlZThhOGMwNDlmOGU3MjJjOTYxZDUiLCJ0IjoiOTBiZTJlMWItMzY2MC00OGVjLWExNDktM2JiNzRkOGNiNjFhIiwicyI6Ik5UZzFOR0psWldZdE1qTXdPUzAwWVRBMkxXRXlZakF0T0RVM1l6QmtORFl4TmpJeCJ9
+```
 continue
 
 3. jalankan localhost
-
-4. cloudflared.exe tunnel --url http://127.0.0.1:8088
-   
+```
+cloudflared.exe tunnel --url http://127.0.0.1:8088
+```
 ## 4. Beli domain
 
 1. Pilih nama dan ekstensi, misalnya `contoh-domain.id` atau `contoh-domain.com`.
